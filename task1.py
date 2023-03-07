@@ -1,18 +1,25 @@
+#importing modules
 from bs4 import BeautifulSoup
 import requests
 import csv
+
+#url for search
 url="https://www.amazon.in/s?k=bags&crid=2M096C61O4MLT&qid=1653308124&sprefix=ba%2Caps%2C283&ref=sr_pg_1"
 HEADERS = {'User-Agent':'Mozilla/5.0 (X11; Linux x86_64)  AppleWebKit/537.36 (KHTML, like Gecko)  Chrome/44.0.2403.157 Safari/537.36', 'Accept-Language': 'en-US, en;q=0.5'}
 webpage = requests.get(url, headers=HEADERS)
 
+
+#html parser
 soup = BeautifulSoup(webpage.content, "html.parser")
 k=soup.find_all("div",attrs={"data-component-type": "s-search-result"})
 
+#for csv creation
 filename = "task1.csv"
 fields = ['link', 'title', 'price', 'review','rating']
 rows=[]
 
 for item in k:
+	#for each items in list
 	print("https://www.amazon.in" + ((item.find_all("a", class_="a-link-normal s-underline-text s-underline-link-text s-link-style a-text-normal"))[0]).get("href"))
 	print(((item.find_all("span", class_="a-size-medium a-color-base a-text-normal"))[0]).get_text())
 	link=("https://www.amazon.in" + ((item.find_all("a", class_="a-link-normal s-underline-text s-underline-link-text s-link-style a-text-normal"))[0]).get("href"))
